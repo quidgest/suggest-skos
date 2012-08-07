@@ -6,7 +6,14 @@
 <link rel="stylesheet" href="ui-lightness/jquery-ui-1.8.22.custom.css"
 	type="text/css" media="all" />
 <script src="jquery-1.7.2.min.js"></script>
-<script src="jquery-ui-1.8.22.custom.min.js"></script><script>
+<script src="jquery-ui-1.8.22.custom.min.js"></script>
+<script>
+	function split(val) {
+		return val.split(/\s+/);
+	}
+	function extractLast(term) {
+		return split(term).pop();
+	}
 	$(function() {
 		$("#search-input").keydown(
 				function(event) {
@@ -17,7 +24,11 @@
 				});
 
 		$("#search-input").autocomplete({
-			source : 'http://localhost:8080/suggest-skos',
+			source : function(request, response) {
+				$.getJSON('http://localhost:8080/suggest-skos', {
+					term : extractLast(request.term)
+				}, response);
+			},
 			minLength : 1,
 			delay : 140,
 			focus : function() {
@@ -28,7 +39,7 @@
 				var terms = this.value.split(/\s+/);
 				terms.pop(); // remove dropdown item
 				terms.push(ui.item.value.trim()); // add completed item
-				this.value = terms.join(" ");
+				this.value = terms.join(" ") + " ";
 				return false;
 			},
 		});
