@@ -1,10 +1,10 @@
 package pt.unl.fct.di.suggestskos.core;
 
-public class Saying {
+public class Suggestions {
   private final long id;
-  private final String content;
+  private final String[] content;
   
-  public Saying(long id, String content) {
+  public Suggestions(long id, String[] content) {
     this.id = id;
     this.content = content;
   }
@@ -13,7 +13,7 @@ public class Saying {
     return id;
   }
   
-  public String getContent() {
+  public String[] getContent() {
     return content;
   }
 }

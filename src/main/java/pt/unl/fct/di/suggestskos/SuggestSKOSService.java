@@ -4,6 +4,7 @@ import pt.unl.fct.di.suggestskos.health.TemplateHealthCheck;
 import pt.unl.fct.di.suggestskos.resources.SuggestSKOSResource;
 
 import com.yammer.dropwizard.Service;
+import com.yammer.dropwizard.bundles.AssetsBundle;
 import com.yammer.dropwizard.config.Environment;
 
 public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
@@ -14,6 +15,8 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   
   private SuggestSKOSService() {
     super("suggest-skos");
+    
+    addBundle(new AssetsBundle("/public", "/public"));
   }
   
   @Override
@@ -21,7 +24,9 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
       Environment environment) {
     final String template = configuration.getTemplate();
     final String defaultName = configuration.getDefaultName();
-    environment.addResource(new SuggestSKOSResource(template, defaultName));
+    
+    
+    environment.addResource(new SuggestSKOSResource());
     environment.addHealthCheck(new TemplateHealthCheck(template));
   }
   

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Autocomplete example</title>
+<link rel="stylesheet" href="jquery-ui-1.8.22.custom.css"
+	type="text/css" media="all" />
+<script src="jquery-1.7.2.min.js"></script>
+<script src="jquery-ui-1.8.22.custom.min.js"></script><script>
+	$(function() {
+		$("#search-input").keydown(
+				function(event) {
+					if (event.keyCode === $.ui.keyCode.TAB
+							&& $(this).data("autocomplete").menu.active) {
+						event.preventDefault();
+					}
+				});
+
+		$("#search-input").autocomplete({
+			source : 'http://localhost:8080/suggest-skos',
+			minLength : 1,
+			delay : 140,
+			focus : function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select : function(event, ui) {
+				var terms = this.value.split(/\s+/);
+				terms.pop(); // remove dropdown item
+				terms.push(ui.item.value.trim()); // add completed item
+				this.value = terms.join(" ");
+				return false;
+			},
+		});
+	});
+</script>
+</head>
+<body>
+	<input id="search-input" name="query" placeholder="Search..."
+		type="text" />
+</body>
+</html>
