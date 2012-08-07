@@ -1,5 +1,7 @@
 package pt.unl.fct.di.suggestskos;
 
+import java.io.IOException;
+
 import pt.unl.fct.di.suggestskos.health.TemplateHealthCheck;
 import pt.unl.fct.di.suggestskos.resources.SuggestSKOSResource;
 
@@ -21,7 +23,7 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   
   @Override
   protected void initialize(SuggestSKOSConfiguration configuration,
-      Environment environment) {
+      Environment environment) throws IOException {
     final String template = configuration.getTemplate();
     final String defaultName = configuration.getDefaultName();
     
