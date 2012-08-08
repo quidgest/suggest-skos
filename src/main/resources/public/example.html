@@ -27,12 +27,13 @@
 				keyDelay		: 140,
 				startText		: "Search...",
 				usePlaceholder	: true,
-				emptyText		: "No suggestions",
 				queryParam		: "q",
 				retrieveLimit	: 10,
 				afterRequest	: function(data) {
 									return data;
 								},
+				showResultListWhenNoMatch :false,
+				searchActive 	: false,
 			});
 		});
 	</script>
