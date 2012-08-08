@@ -40,7 +40,7 @@ public class SuggestSKOSResource {
       @QueryParam("q") Optional<String> query,
       @QueryParam("limit") Optional<Integer> limit) throws IOException {
     Suggestions sugs = new Suggestions(counter.incrementAndGet(),
-        skosAutocompleter.suggestSimilar(query.or(""), limit.or(10)));
+        skosAutocompleter.suggestSimilar(query.or("").toLowerCase(), limit.or(10)));
     List<Map<String,String>> items = new ArrayList<Map<String,String>>();
     for (String s : sugs.getContent()) {
       Map<String,String> map = new HashMap<String,String>();
