@@ -2,8 +2,9 @@ package pt.unl.fct.di.suggestskos.resources;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.GET;
@@ -35,13 +36,14 @@ public class SuggestSKOSResource {
   
   @GET
   @Timed
-  public List<LinkedHashMap<String,String>> getSuggestions(@QueryParam("q") Optional<String> query)
-      throws IOException {
+  public List<Map<String,String>> getSuggestions(
+      @QueryParam("q") Optional<String> query,
+      @QueryParam("limit") Optional<Integer> limit) throws IOException {
     Suggestions sugs = new Suggestions(counter.incrementAndGet(),
-        skosAutocompleter.suggestSimilar(query.or(""), 10));
-    List<LinkedHashMap<String,String>> items = new ArrayList<LinkedHashMap<String,String>>();
+        skosAutocompleter.suggestSimilar(query.or(""), limit.or(10)));
+    List<Map<String,String>> items = new ArrayList<Map<String,String>>();
     for (String s : sugs.getContent()) {
-      LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
+      Map<String,String> map = new HashMap<String,String>();
       map.put("value", s);
       map.put("name", s);
       items.add(map);
