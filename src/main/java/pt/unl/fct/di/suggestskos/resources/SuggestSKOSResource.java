@@ -1,6 +1,9 @@
 package pt.unl.fct.di.suggestskos.resources;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.GET;
@@ -32,10 +35,17 @@ public class SuggestSKOSResource {
   
   @GET
   @Timed
-  public String[] getSuggestions(@QueryParam("term") Optional<String> term)
+  public List<LinkedHashMap<String,String>> getSuggestions(@QueryParam("q") Optional<String> query)
       throws IOException {
     Suggestions sugs = new Suggestions(counter.incrementAndGet(),
-        skosAutocompleter.suggestSimilar(term.or(""), 10));
-    return sugs.getContent();
+        skosAutocompleter.suggestSimilar(query.or(""), 10));
+    List<LinkedHashMap<String,String>> items = new ArrayList<LinkedHashMap<String,String>>();
+    for (String s : sugs.getContent()) {
+      LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
+      map.put("value", s);
+      map.put("name", s);
+      items.add(map);
+    }
+    return items;
   }
 }

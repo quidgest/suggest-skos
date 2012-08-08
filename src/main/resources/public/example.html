@@ -2,62 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Autocomplete example</title>
-<link rel="stylesheet" href="ui-lightness/jquery-ui-1.8.22.custom.css"
+<title>AutoSuggest example</title>
+<link rel="stylesheet" href="jquery.autoSuggest.min.css"
 	type="text/css" media="all" />
-<style>
-#search-input {
-	font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-	font-size: 1.1em;
-	width: 500px;
-	display: block;
-	margin: 50px auto 10px auto;
-	padding: 3px;
-}
-</style>
 <script src="jquery-1.7.2.min.js"></script>
-<script src="jquery-ui-1.8.22.custom.min.js"></script>
+<script src="jquery.autoSuggest.min.js"></script>
 <script>
-	function split(val) {
-		return val.split(/,\s*/);
-	}
-	function extractLast(term) {
-		return split(term).pop();
-	}
-	$(function() {
-		$("#search-input").keydown(
-				function(event) {
-					if (event.keyCode === $.ui.keyCode.TAB
-							&& $(this).data("autocomplete").menu.active) {
-						event.preventDefault();
-					}
-				});
-
-		$("#search-input").autocomplete({
-			source : function(request, response) {
-				$.getJSON('/suggest-skos', {
-					term : extractLast(request.term)
-				}, response);
-			},
-			minLength : 1,
-			delay : 140,
-			focus : function() {
-				// prevent value inserted on focus
-				return false;
-			},
-			select : function(event, ui) {
-				var terms = this.value.split(/\s+/);
-				terms.pop(); // remove dropdown item
-				terms.push(ui.item.value.trim()); // add completed item
-				this.value = terms.join(" ") + ", ";
-				return false;
-			},
+	$(document).ready(function () {
+		$("#search-input").autoSuggest("/suggest-skos", {
+			minChars : 1,
+			keyDelay : 140,
 		});
 	});
 </script>
 </head>
 <body>
-	<input id="search-input" name="query" placeholder="Search..."
-		type="text" />
+	<input id="search-input" name="query" type="text" />
 </body>
 </html>
