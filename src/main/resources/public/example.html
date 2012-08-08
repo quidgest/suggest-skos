@@ -1,30 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>AutoSuggest example</title>
-<link rel="stylesheet" href="jquery.autoSuggest.min.css"
-	type="text/css" media="all" />
-<script src="jquery-1.7.2.min.js"></script>
-<script src="jquery.autoSuggest.min.js"></script>
-<script>
-	$(document).ready(function () {
-		$("#search-input").autoSuggest("/suggest-skos", {
-			minChars		: 1,
-			keyDelay		: 140,
-			startText		: "Search...",
-			usePlaceholder	: true,
-			emptyText		: "No suggestions",
-			queryParam		: "q",
-			retrieveLimit	: 10,
-			afterRequest	: function(data) {
-								return data;
-							},
+	<meta charset="utf-8">
+	<title>AutoSuggest example</title>
+	<link rel="stylesheet" href="jquery.autoSuggest.min.css"
+		type="text/css" media="all" />
+	<script src="jquery-1.7.2.min.js"></script>
+	<script src="jquery.autoSuggest.min.js"></script>
+
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+			font-size: 1.1em;
+		}
+
+		section {
+			width: 500px;
+			margin: auto;
+			margin-top: 60px;
+		}
+
+		form input {
+			width: 450px;
+		}
+
+		#search-input {
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$("#search-input").autoSuggest("/suggest-skos", {
+				minChars		: 1,
+				keyDelay		: 140,
+				startText		: "Search...",
+				usePlaceholder	: true,
+				emptyText		: "No suggestions",
+				queryParam		: "q",
+				retrieveLimit	: 10,
+				afterRequest	: function(data) {
+									return data;
+								},
+			});
 		});
-	});
-</script>
+	</script>
 </head>
 <body>
-	<input id="search-input" name="query" type="text" />
+
+	<section id="search-form">
+		<form>
+			<input id="search-input" name="search" type="text" />
+		</form>
+	</section>
+
 </body>
 </html>
