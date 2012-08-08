@@ -19,7 +19,7 @@
 <script src="jquery-ui-1.8.22.custom.min.js"></script>
 <script>
 	function split(val) {
-		return val.split(/\s+/);
+		return val.split(/,\s*/);
 	}
 	function extractLast(term) {
 		return split(term).pop();
@@ -35,7 +35,7 @@
 
 		$("#search-input").autocomplete({
 			source : function(request, response) {
-				$.getJSON('http://localhost:8080/suggest-skos', {
+				$.getJSON('/suggest-skos', {
 					term : extractLast(request.term)
 				}, response);
 			},
@@ -49,7 +49,7 @@
 				var terms = this.value.split(/\s+/);
 				terms.pop(); // remove dropdown item
 				terms.push(ui.item.value.trim()); // add completed item
-				this.value = terms.join(" ") + " ";
+				this.value = terms.join(" ") + ", ";
 				return false;
 			},
 		});
