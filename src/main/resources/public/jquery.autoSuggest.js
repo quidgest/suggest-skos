@@ -614,6 +614,7 @@ Based on the 1.6er release dated in July, 2012
           return;
         }
         prev = string;
+        string = string.replace(/^\s+/g, '');
         if (string.length >= options.minChars) {
           selectionsContainer.addClass('loading');
           return processRequest(string);
@@ -656,6 +657,7 @@ Based on the 1.6er release dated in July, 2012
             if (!options.matchCase) {
               str = str.toLowerCase();
             }
+            str = decodeURIComponent(str);
             if (!options.searchActive || (str.indexOf(query) !== -1 && !currentSelection.exist(item[options.selectedValuesProp]))) {
               forward = true;
             }

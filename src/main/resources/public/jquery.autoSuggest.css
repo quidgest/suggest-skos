@@ -171,12 +171,12 @@ li.as-result-item.active {
 }
 li.as-result-item em {
   font-style: normal;
-  background: #444;
+  font-weight: bold;
   padding: 0 2px;
-  color: #fff;
 }
 li.as-result-item.active em {
-  background: #253f7a;
+  font-style: normal;
+  font-weight: bold;
   color: #fff;
 }
 
