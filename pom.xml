@@ -8,8 +8,8 @@
   <dependencies>
   	<dependency>
   		<groupId>at.ac.univie.mminf</groupId>
-  		<artifactId>luceneSKOS</artifactId>
-  		<version>0.2-SNAPSHOT</version>
+  		<artifactId>lucene-skos</artifactId>
+  		<version>0.3-SNAPSHOT</version>
   		<exclusions>
   			<exclusion>
   				<artifactId>slf4j-jdk14</artifactId>
