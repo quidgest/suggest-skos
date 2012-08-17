@@ -2,10 +2,6 @@ package pt.unl.fct.di.suggestskos.resources;
 
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.GET;
@@ -37,19 +33,12 @@ public class SuggestSKOSResource {
   
   @GET
   @Timed
-  public List<Map<String,String>> getSuggestions(
+  public Suggestions getSuggestions(
       @QueryParam("q") Optional<String> query,
       @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
     Suggestions sugs = new Suggestions(counter.incrementAndGet(),
         skosAutocompleter.suggestSimilar(term, limit.or(10)));
-    List<Map<String,String>> items = new ArrayList<Map<String,String>>();
-    for (String s : sugs.getContent()) {
-      Map<String,String> map = new HashMap<String,String>();
-      map.put("value", s);
-      map.put("name", s);
-      items.add(map);
-    }
-    return items;
+    return sugs;
   }
 }
