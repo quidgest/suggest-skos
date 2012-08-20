@@ -723,7 +723,7 @@ Based on the 1.6er release dated in July, 2012
             matchCount++;
             if (options.retrieveLimit && options.retrieveLimit === matchCount) {
               if (!!hits && hits > options.retrieveLimit) {
-                formatted = $("<li class=\"as-message\"><em><strong>" + (hits - options.retrieveLimit) + " additional matches.</strong></em></li>");
+                formatted = $("<li class=\"as-message as-hits\"><em><strong>" + (hits - options.retrieveLimit) + " additional matches.</strong></em></li>");
                 resultsList.append(formatted);
               }
               break;

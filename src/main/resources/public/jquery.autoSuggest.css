@@ -151,6 +151,10 @@ li.as-result-item, li.as-message {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
+li.as-hits {
+  text-align: right;
+  background-color: #e6e6e6;
+}
 li:first-child.as-result-item {
   margin: 0;
 }
