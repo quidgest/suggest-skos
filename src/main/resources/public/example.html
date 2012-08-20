@@ -3,9 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>AutoSuggest example</title>
+	<link rel="stylesheet" href="jquery.qtip.css"
+		type="text/css" media="all" />
 	<link rel="stylesheet" href="jquery.autoSuggest.css"
 		type="text/css" media="all" />
+
 	<script src="jquery-1.7.2.min.js"></script>
+
+	<script src="jquery.qtip.js"></script>
 	<script src="jquery.autoSuggest.js"></script>
 
 	<style>
@@ -19,10 +24,16 @@
 			margin: auto;
 			margin-top: 60px;
 		}
+		
+		.exp-tooltip {
+			font-size: 13px;
+			font-family: "Lucida Grande", arial, sans-serif;
+			line-height: 18px;
+		}
 	</style>
 	<script>
 		$(document).ready(function () {
-			$("#search-input").autoSuggest("/suggest-skos", {
+			$("#search-input").autoSuggest("/suggest", {
 				minChars		: 2,
 				keyDelay		: 140,
 				startText		: "Search...",
@@ -34,6 +45,49 @@
 								},
 				showResultListWhenNoMatch :false,
 				searchActive 	: false,
+				selectionClick	: function(element) {
+					console.log(element);
+				},
+				selectionAdded	: function(elementBefore, id) {
+					console.log(elementBefore);
+					console.log(id);
+					params = {};
+					params["q"] = encodeURIComponent(decodeURIComponent(id));
+					elementBefore.qtip({
+						content: {
+							text: "Loading...",
+							title: {
+								text: "Also matches"
+							},
+							ajax: {
+								url: "/expansions",
+				                data: params,
+								once: true,
+				                success: function(data, status) {
+				                	// Process
+				                	if (data.length > 0) {
+				                		data = data.join("</br>");
+				                	} else {
+				                		data = "No expansions";
+				                	}
+				                	this.set('content.text', data);
+				                }
+				            }
+						},
+						style: {
+					        classes: 'ui-tooltip-shadow exp-tooltip',
+					    },
+					    position: {
+					        my: 'top left',
+					        at: 'bottom center',
+					    },
+					    show: {
+					    	effect: {
+					    		type: 'fade'
+					    	}
+					    },
+					});
+				},
 			});
 		});
 	</script>

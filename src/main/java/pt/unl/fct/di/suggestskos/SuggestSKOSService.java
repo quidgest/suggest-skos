@@ -3,6 +3,7 @@ package pt.unl.fct.di.suggestskos;
 import java.io.IOException;
 
 import pt.unl.fct.di.suggestskos.health.TemplateHealthCheck;
+import pt.unl.fct.di.suggestskos.resources.ExpansionsSKOSResource;
 import pt.unl.fct.di.suggestskos.resources.SuggestSKOSResource;
 
 import com.yammer.dropwizard.Service;
@@ -29,6 +30,7 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
     
     
     environment.addResource(new SuggestSKOSResource());
+    environment.addResource(new ExpansionsSKOSResource());
     environment.addHealthCheck(new TemplateHealthCheck(template));
   }
   
