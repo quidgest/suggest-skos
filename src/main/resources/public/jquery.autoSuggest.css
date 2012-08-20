@@ -17,7 +17,7 @@ ul.as-selections {
   user-select: none;
 }
 ul.as-selections.loading {
-  background-color: #e6e6e6;
+  background-color: #fff;
 }
 ul.as-selections li {
   float: left;
