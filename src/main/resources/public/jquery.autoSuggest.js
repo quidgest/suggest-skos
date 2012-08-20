@@ -631,7 +631,7 @@ Based on the 1.6er release dated in July, 2012
         return fetcher(string, processData);
       };
       processData = function(data, query) {
-        var formatted, forward, matchCount, name, num, regx, str, this_data, _k, _l, _len2, _len3, _ref2;
+        var formatted, forward, matchCount, name, num, regx, str, this_data, _k, _l, _len2, _len3, _ref2, hits;
         if (!options.matchCase) {
           query = query.toLowerCase();
         }
@@ -639,6 +639,12 @@ Based on the 1.6er release dated in July, 2012
         matchCount = 0;
         resultsContainer.hide().html(resultsList.html(''));
         num = 0;
+        if ('hits' in data) {
+          hits = data.hits;
+        }
+        if ('items' in data) {
+          data = data.items;
+        }
         for (_k = 0, _len2 = data.length; _k < _len2; _k++) {
           item = data[_k];
           num_count++;
@@ -716,6 +722,10 @@ Based on the 1.6er release dated in July, 2012
             this_data = null;
             matchCount++;
             if (options.retrieveLimit && options.retrieveLimit === matchCount) {
+              if (!!hits && hits > options.retrieveLimit) {
+                formatted = $("<li class=\"as-message\"><em><strong>" + (hits - options.retrieveLimit) + " additional matches.</strong></em></li>");
+                resultsList.append(formatted);
+              }
               break;
             }
           }
