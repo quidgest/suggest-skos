@@ -2,6 +2,9 @@ package pt.unl.fct.di.suggestskos.resources;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.GET;
@@ -33,8 +36,25 @@ public class ExpansionsResource {
   public Expansions getExpansions(@QueryParam("q") Optional<String> query,
       @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
-    Expansions exps = new Expansions(counter.incrementAndGet(),
-        skosEngine.getAltTerms(term));
+    
+    List<String> items = new ArrayList<String>();
+    
+    try {
+      String[] conceptURIs = skosEngine.getConcepts(term);
+      
+      for (String conceptURI : conceptURIs) {
+        String[] prefLabels = skosEngine.getPrefLabels(conceptURI);
+        items.addAll(Arrays.asList(prefLabels));
+        String[] altLabels = skosEngine.getAltLabels(conceptURI);
+        items.addAll(Arrays.asList(altLabels));
+      }
+    } catch (Exception e) {
+      System.err
+          .println("Error when accessing SKOS Engine.\n" + e.getMessage());
+    }
+    items.remove(term);
+    
+    Expansions exps = new Expansions(counter.incrementAndGet(), items);
     return exps;
   }
 }

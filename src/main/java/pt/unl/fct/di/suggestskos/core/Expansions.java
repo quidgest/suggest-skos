@@ -1,10 +1,12 @@
 package pt.unl.fct.di.suggestskos.core;
 
+import java.util.List;
+
 public class Expansions {
   private final long id;
-  private final String[] items;
+  private final List<String> items;
   
-  public Expansions(long id, String[] content) {
+  public Expansions(long id, List<String> content) {
     this.id = id;
     items = content;
   }
@@ -13,7 +15,7 @@ public class Expansions {
     return id;
   }
   
-  public String[] getItems() {
+  public List<String> getItems() {
     return items;
   }
 }
