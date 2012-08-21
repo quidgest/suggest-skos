@@ -64,13 +64,14 @@
 				                data: params,
 								once: true,
 				                success: function(data, status) {
+				                	var items = [];
 				                	// Process
-				                	if (data.length > 0) {
-				                		data = data.join("</br>");
+				                	if ('items' in data && data.items.length > 0) {
+				                		items = data.items.join("</br>");
 				                	} else {
-				                		data = "No expansions";
+				                		items = "No expansions";
 				                	}
-				                	this.set('content.text', data);
+				                	this.set('content.text', items);
 				                }
 				            }
 						},

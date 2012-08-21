@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import pt.unl.fct.di.suggestskos.core.Expansions;
 
 import at.ac.univie.mminf.luceneSKOS.skos.SKOSEngine;
 
@@ -29,10 +30,11 @@ public class ExpansionsResource {
   
   @GET
   @Timed
-  public String[] getExpansions(
-      @QueryParam("q") Optional<String> query,
+  public Expansions getExpansions(@QueryParam("q") Optional<String> query,
       @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
-    return skosEngine.getAltTerms(term);
+    Expansions exps = new Expansions(counter.incrementAndGet(),
+        skosEngine.getAltTerms(term));
+    return exps;
   }
 }
