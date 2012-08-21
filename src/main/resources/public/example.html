@@ -49,8 +49,6 @@
 					console.log(element);
 				},
 				selectionAdded	: function(elementBefore, id) {
-					console.log(elementBefore);
-					console.log(id);
 					params = {};
 					params["q"] = encodeURIComponent(decodeURIComponent(id));
 					elementBefore.qtip({
@@ -90,6 +88,54 @@
 					    },
 					    hide: {
 							event: 'click mouseleave'
+						}
+					});
+				},
+				resultsListAppend	: function(elementBefore, data) {
+					params = {};
+					params["q"] = encodeURIComponent(decodeURIComponent(data.name));
+					elementBefore.qtip({
+						content: {
+							text: "Loading...",
+							title: {
+								text: "Also matches"
+							},
+							ajax: {
+								url: "/expansions",
+				                data: params,
+								once: true,
+				                success: function(data, status) {
+				                	var items = [];
+				                	// Process
+				                	if ('items' in data && data.items.length > 0) {
+				                		items = data.items.join("</br>");
+				                	} else {
+				                		items = "No expansions";
+				                	}
+				                	this.set('content.text', items);
+				                }
+				            }
+						},
+						style: {
+					        classes: 'ui-tooltip-shadow exp-tooltip',
+					    },
+					    position: {
+					        my: 'top left',
+					        at: 'bottom right',
+					        target: 'mouse',
+				        	adjust: {
+				        		x: 14,
+				                y: 12
+				            }
+					    },
+					    show: {
+					    	event: 'mouseenter',
+					    	effect: {
+					    		type: 'fade'
+					    	}
+					    },
+					    hide: {
+							event: 'mouseleave'
 						}
 					});
 				},

@@ -718,6 +718,11 @@ Based on the 1.6er release dated in July, 2012
             } else {
               formatted = options.formatList.call(this, this_data, formatted);
             }
+            
+            if ($.isFunction(options.resultsListAppend)) {
+                options.resultsListAppend.call(this, formatted, this_data);
+            }
+            
             resultsList.append(formatted);
             this_data = null;
             matchCount++;
