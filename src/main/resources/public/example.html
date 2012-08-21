@@ -121,21 +121,21 @@
 					    },
 					    position: {
 					        my: 'top left',
-					        at: 'bottom right',
-					        target: 'mouse',
+					        at: 'bottom center',
+					        target: !$.fn.qtip.plugins.iOS ? 'mouse' : false,
 				        	adjust: {
-				        		x: 14,
-				                y: 12
+				        		x: 17,
+				                y: 10
 				            }
 					    },
 					    show: {
-					    	event: 'mouseenter',
+					    	event: 'mouseenter click',
 					    	effect: {
 					    		type: 'fade'
 					    	}
 					    },
 					    hide: {
-							event: 'mouseleave'
+							event: 'mouseleave click'
 						}
 					});
 				},
