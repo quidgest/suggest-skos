@@ -1,2 +1,2 @@
-template: Hello, %s!
-defaultName: Stranger
+fileName: ../../skos/eurovoc_skos.rdf.zip
+languages: en

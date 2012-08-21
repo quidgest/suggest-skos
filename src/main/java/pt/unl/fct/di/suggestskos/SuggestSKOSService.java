@@ -1,10 +1,16 @@
 package pt.unl.fct.di.suggestskos;
 
+import java.io.File;
 import java.io.IOException;
 
-import pt.unl.fct.di.suggestskos.health.TemplateHealthCheck;
-import pt.unl.fct.di.suggestskos.resources.ExpansionsSKOSResource;
-import pt.unl.fct.di.suggestskos.resources.SuggestSKOSResource;
+import org.apache.lucene.util.Version;
+
+import pt.unl.fct.di.suggestskos.resources.ExpansionsResource;
+import pt.unl.fct.di.suggestskos.resources.SuggestResource;
+
+import at.ac.univie.mminf.luceneSKOS.search.SKOSAutocompleter;
+import at.ac.univie.mminf.luceneSKOS.skos.SKOSEngine;
+import at.ac.univie.mminf.luceneSKOS.skos.impl.SKOSEngineImpl;
 
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.bundles.AssetsBundle;
@@ -25,13 +31,23 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   @Override
   protected void initialize(SuggestSKOSConfiguration configuration,
       Environment environment) throws IOException {
-    final String template = configuration.getTemplate();
-    final String defaultName = configuration.getDefaultName();
+    final String fileName = configuration.getFileName();
+    final String languages = configuration.getLanguages();
     
+    File file = new File(fileName);
+    if (!file.exists()) {
+      throw new IOException("File " + fileName + "not found!");
+    }
     
-    environment.addResource(new SuggestSKOSResource());
-    environment.addResource(new ExpansionsSKOSResource());
-    environment.addHealthCheck(new TemplateHealthCheck(template));
+    final String[] langs = languages.split("\\s+");
+    
+    final SKOSEngine skosEngine = new SKOSEngineImpl(Version.LUCENE_40,
+        fileName, langs);
+    final SKOSAutocompleter skosAutocompleter = new SKOSAutocompleter(
+        Version.LUCENE_40, fileName, langs);
+    
+    environment.addResource(new ExpansionsResource(skosEngine));
+    environment.addResource(new SuggestResource(skosAutocompleter));
   }
   
 }

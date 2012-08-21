@@ -10,35 +10,29 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.lucene.util.Version;
 
-import pt.unl.fct.di.suggestskos.core.Suggestions;
-
-import at.ac.univie.mminf.luceneSKOS.search.SKOSAutocompleter;
+import at.ac.univie.mminf.luceneSKOS.skos.SKOSEngine;
 
 import com.google.common.base.Optional;
 import com.yammer.metrics.annotation.Timed;
 
-@Path("/suggest")
+@Path("/expansions")
 @Produces(MediaType.APPLICATION_JSON)
-public class SuggestSKOSResource {
+public class ExpansionsResource {
   private final AtomicLong counter;
-  private final SKOSAutocompleter skosAutocompleter;
+  private final SKOSEngine skosEngine;
   
-  public SuggestSKOSResource() throws IOException {
+  public ExpansionsResource(SKOSEngine skosEngine) throws IOException {
     this.counter = new AtomicLong();
-    skosAutocompleter = new SKOSAutocompleter(Version.LUCENE_40,
-        "../../skos/mesh_complete.nt.zip");
+    this.skosEngine = skosEngine;
   }
   
   @GET
   @Timed
-  public Suggestions getSuggestions(
+  public String[] getExpansions(
       @QueryParam("q") Optional<String> query,
       @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
-    Suggestions sugs = new Suggestions(counter.incrementAndGet(),
-        skosAutocompleter.suggestSimilar(term, limit.or(10)));
-    return sugs;
+    return skosEngine.getAltTerms(term);
   }
 }

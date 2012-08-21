@@ -8,17 +8,17 @@ import com.yammer.dropwizard.config.Configuration;
 public class SuggestSKOSConfiguration extends Configuration {
   @NotEmpty
   @JsonProperty
-  private String template;
-  
+  private String fileName;
+
   @NotEmpty
   @JsonProperty
-  private String defaultName = "Stranger";
+  private String languages;
   
-  public String getTemplate() {
-    return template;
+  public String getLanguages() {
+    return languages;
   }
   
-  public String getDefaultName() {
-    return defaultName;
+  public String getFileName() {
+    return fileName;
   }
 }
