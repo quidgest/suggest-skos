@@ -2,9 +2,8 @@ package pt.unl.fct.di.suggestskos.resources;
 
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.GET;
@@ -40,7 +39,8 @@ public class ExpansionsResource {
       @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
     
-    List<String> items = new ArrayList<String>();
+    // to remove duplicates
+    LinkedHashSet<String> items = new LinkedHashSet<String>();
     
     try {
       String[] conceptURIs = skosEngine.getConcepts(term);
@@ -56,7 +56,8 @@ public class ExpansionsResource {
     }
     items.remove(term);
     
-    Expansions exps = new Expansions(counter.incrementAndGet(), items);
+    Expansions exps = new Expansions(counter.incrementAndGet(),
+        Arrays.asList(items.toArray(new String[items.size()])));
     return exps;
   }
 }
