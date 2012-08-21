@@ -12,6 +12,7 @@ import at.ac.univie.mminf.luceneSKOS.search.SKOSAutocompleter;
 import at.ac.univie.mminf.luceneSKOS.skos.SKOSEngine;
 import at.ac.univie.mminf.luceneSKOS.skos.impl.SKOSEngineImpl;
 
+import com.google.common.cache.CacheBuilderSpec;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.bundles.AssetsBundle;
 import com.yammer.dropwizard.config.Environment;
@@ -25,7 +26,12 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   private SuggestSKOSService() {
     super("suggest-skos");
     
-    addBundle(new AssetsBundle("/public", "/public"));
+    // By default a restart will be required to pick up any changes to assets.
+    // Use the following spec to disable that behaviour, useful when developing.
+    // CacheBuilderSpec cacheSpec = CacheBuilderSpec.disableCaching();
+    
+    CacheBuilderSpec cacheSpec = AssetsBundle.DEFAULT_CACHE_SPEC;
+    addBundle(new AssetsBundle("/public", cacheSpec, "/public"));
   }
   
   @Override
