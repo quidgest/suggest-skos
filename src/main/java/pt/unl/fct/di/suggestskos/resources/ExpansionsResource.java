@@ -18,11 +18,14 @@ import pt.unl.fct.di.suggestskos.core.Expansions;
 import at.ac.univie.mminf.luceneSKOS.skos.SKOSEngine;
 
 import com.google.common.base.Optional;
+import com.yammer.dropwizard.logging.Log;
 import com.yammer.metrics.annotation.Timed;
 
 @Path("/expansions")
 @Produces(MediaType.APPLICATION_JSON)
 public class ExpansionsResource {
+  private static final Log LOG = Log.forClass(ExpansionsResource.class);
+  
   private final AtomicLong counter;
   private final SKOSEngine skosEngine;
   
@@ -49,8 +52,7 @@ public class ExpansionsResource {
         items.addAll(Arrays.asList(altLabels));
       }
     } catch (Exception e) {
-      System.err
-          .println("Error when accessing SKOS Engine.\n" + e.getMessage());
+      LOG.error("Error when accessing SKOS Engine.\n" + e.getMessage());
     }
     items.remove(term);
     

@@ -16,6 +16,7 @@ import com.google.common.cache.CacheBuilderSpec;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.bundles.AssetsBundle;
 import com.yammer.dropwizard.config.Environment;
+import com.yammer.dropwizard.logging.Log;
 
 public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   
@@ -37,12 +38,16 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   @Override
   protected void initialize(SuggestSKOSConfiguration configuration,
       Environment environment) throws IOException {
+    final Log LOG = Log.forClass(SuggestSKOSService.class);
+    
     final String fileName = configuration.getFileName();
     final String languages = configuration.getLanguages();
     
     File file = new File(fileName);
     if (!file.exists()) {
-      throw new IOException("File " + fileName + "not found!");
+      IOException e = new IOException("File not found: " + fileName);
+      LOG.error(e.getMessage());
+      throw e;
     }
     
     final String[] langs = languages.split("\\s+");
