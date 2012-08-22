@@ -74,20 +74,20 @@
 				            }
 						},
 						style: {
-					        classes: 'ui-tooltip-shadow exp-tooltip',
+					        classes: 'ui-tooltip-shadow exp-tooltip'
 					    },
 					    position: {
 					        my: 'top left',
-					        at: 'bottom center',
+					        at: 'bottom center'
 					    },
 					    show: {
-					    	event: 'click mouseenter',
-					    	effect: {
-					    		type: 'fade'
-					    	}
+					    	event: 'click mouseenter'
 					    },
 					    hide: {
-							event: 'click mouseleave'
+							event: 'click mouseleave',
+							effect: function() {
+					    		$(this).fadeOut('fast');
+					    	}
 						}
 					});
 				},
@@ -117,7 +117,7 @@
 				            }
 						},
 						style: {
-					        classes: 'ui-tooltip-shadow exp-tooltip',
+					        classes: 'ui-tooltip-shadow exp-tooltip'
 					    },
 					    position: {
 					        my: 'top left',
@@ -129,13 +129,18 @@
 				            }
 					    },
 					    show: {
-					    	event: 'mouseenter ' + ($.fn.qtip.plugins.iOS ? 'click' : ''),
-					    	effect: {
-					    		type: 'fade'
-					    	}
+					    	event: 'mouseenter ' + ($.fn.qtip.plugins.iOS ? 'click' : '')
 					    },
 					    hide: {
 							event: 'mouseleave ' + ($.fn.qtip.plugins.iOS ? 'click' : ''),
+							effect: function() {
+					    		$(this).fadeOut('fast');
+					    	}
+						},
+						events: {
+							show: function(event, api) {
+								setTimeout('$("#' + event.target.id + '").qtip("hide")', 3000);
+							}
 						}
 					});
 				},
