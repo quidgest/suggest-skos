@@ -45,6 +45,10 @@
 								},
 				showResultListWhenNoMatch :false,
 				searchActive 	: false,
+				beforeRequest	: function(string) {
+					$('.qtip.ui-tooltip').qtip('hide');
+					return string;
+				},
 				selectionClick	: function(element) {
 					console.log(element);
 				},
@@ -114,7 +118,7 @@
 				                	}
 				                	this.set('content.text', items);
 				                	// only hide if we received data
-				                	setTimeout('$("#ui-tooltip-' + this.id + '").qtip("hide")', 3000);
+				                	setTimeout('$("#ui-tooltip-' + this.id + '").qtip("hide")', 5000);
 				                }
 				            }
 						},
@@ -142,7 +146,7 @@
 						events: {
 							show: function(event, api) {
 								if (event.target.innerText.indexOf('Loading...') == -1) {
-									setTimeout('$("#' + event.target.id + '").qtip("hide")', 3000);
+									setTimeout('$("#' + event.target.id + '").qtip("hide")', 5000);
 								}
 							}
 						}
