@@ -129,13 +129,13 @@
 				            }
 					    },
 					    show: {
-					    	event: 'mouseenter ' + $.fn.qtip.plugins.iOS ? 'click' : '',
+					    	event: 'mouseenter ' + ($.fn.qtip.plugins.iOS ? 'click' : ''),
 					    	effect: {
 					    		type: 'fade'
 					    	}
 					    },
 					    hide: {
-							event: 'mouseleave ' + $.fn.qtip.plugins.iOS ? 'click' : '',
+							event: 'mouseleave ' + ($.fn.qtip.plugins.iOS ? 'click' : ''),
 						}
 					});
 				},
