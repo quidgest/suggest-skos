@@ -10,7 +10,6 @@ public class SuggestSKOSConfiguration extends Configuration {
   @JsonProperty
   private String fileName;
 
-  @NotEmpty
   @JsonProperty
   private String languages;
   

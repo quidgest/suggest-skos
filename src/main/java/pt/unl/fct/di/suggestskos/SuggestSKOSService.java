@@ -29,9 +29,9 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
     
     // By default a restart will be required to pick up any changes to assets.
     // Use the following spec to disable that behaviour, useful when developing.
-    // CacheBuilderSpec cacheSpec = CacheBuilderSpec.disableCaching();
+    CacheBuilderSpec cacheSpec = CacheBuilderSpec.disableCaching();
     
-    CacheBuilderSpec cacheSpec = AssetsBundle.DEFAULT_CACHE_SPEC;
+    // CacheBuilderSpec cacheSpec = AssetsBundle.DEFAULT_CACHE_SPEC;
     addBundle(new AssetsBundle("/public", cacheSpec, "/public"));
   }
   
@@ -50,7 +50,7 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
       throw e;
     }
     
-    final String[] langs = languages.split("\\s+");
+    final String[] langs = languages == null ? new String[0] : languages.split("\\s+");
     
     final SKOSEngine skosEngine = new SKOSEngineImpl(Version.LUCENE_40,
         fileName, langs);

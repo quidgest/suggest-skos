@@ -22,7 +22,7 @@
 		section {
 			width: 750px;
 			margin: auto;
-			margin-top: 60px;
+			margin-top: 10px;
 		}
 		
 		.exp-tooltip {
@@ -39,7 +39,7 @@
 				startText		: "Search...",
 				usePlaceholder	: true,
 				queryParam		: "q",
-				retrieveLimit	: 10,
+				retrieveLimit	: 5,
 				afterRequest	: function(data) {
 									return data;
 								},
@@ -91,7 +91,7 @@
 						}
 					});
 				},
-				resultsListAppend	: function(elementBefore, data) {
+				resultAdded	: function(elementBefore, data) {
 					params = {};
 					params["q"] = encodeURIComponent(decodeURIComponent(data.name));
 					elementBefore.qtip({
@@ -129,13 +129,13 @@
 				            }
 					    },
 					    show: {
-					    	event: 'mouseenter click',
+					    	event: 'mouseenter ' + $.fn.qtip.plugins.iOS ? 'click' : '',
 					    	effect: {
 					    		type: 'fade'
 					    	}
 					    },
 					    hide: {
-							event: 'mouseleave click'
+							event: 'mouseleave ' + $.fn.qtip.plugins.iOS ? 'click' : '',
 						}
 					});
 				},
