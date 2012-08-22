@@ -113,6 +113,8 @@
 				                		items = "No expansions";
 				                	}
 				                	this.set('content.text', items);
+				                	// only hide if we received data
+				                	setTimeout('$("#ui-tooltip-' + this.id + '").qtip("hide")', 3000);
 				                }
 				            }
 						},
@@ -139,7 +141,9 @@
 						},
 						events: {
 							show: function(event, api) {
-								setTimeout('$("#' + event.target.id + '").qtip("hide")', 3000);
+								if (event.target.innerText.indexOf('Loading...') == -1) {
+									setTimeout('$("#' + event.target.id + '").qtip("hide")', 3000);
+								}
 							}
 						}
 					});
