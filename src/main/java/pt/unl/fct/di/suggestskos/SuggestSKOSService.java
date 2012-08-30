@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.lucene.util.Version;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import pt.unl.fct.di.suggestskos.resources.ExpansionsResource;
 import pt.unl.fct.di.suggestskos.resources.SuggestResource;
@@ -57,8 +58,10 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
     final SKOSAutocompleter skosAutocompleter = new SKOSAutocompleter(
         Version.LUCENE_40, fileName, langs);
     
+    // cross-origin filter
+    environment.addFilter(CrossOriginFilter.class, "/*");
+    
     environment.addResource(new ExpansionsResource(skosEngine));
     environment.addResource(new SuggestResource(skosAutocompleter));
   }
-  
 }

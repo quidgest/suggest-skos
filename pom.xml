@@ -25,6 +25,11 @@
   		<artifactId>dropwizard-core</artifactId>
   		<version>0.5.1</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.jetty</groupId>
+  		<artifactId>jetty-servlets</artifactId>
+  		<version>8.1.5.v20120716</version>
+  	</dependency>
   </dependencies>
   <description>Search box suggester using SKOS thesauri</description>
 </project>
