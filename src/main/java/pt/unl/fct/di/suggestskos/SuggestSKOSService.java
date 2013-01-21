@@ -21,12 +21,20 @@ import com.yammer.dropwizard.logging.Log;
 
 public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
   
+  // only loads the data and terminates the Service	
+  private boolean onlyLoads;
+	
   public static void main(String[] args) throws Exception {
-    new SuggestSKOSService().run(args);
+	boolean onlyLoads = false;
+	if(args.length == 3)
+		onlyLoads = args[2].equals("load");
+    new SuggestSKOSService(onlyLoads).run(args);
   }
   
-  private SuggestSKOSService() {
+  private SuggestSKOSService(boolean onlyLoads) {
     super("suggest-skos");
+    
+    this.onlyLoads = onlyLoads;
     
     // By default a restart will be required to pick up any changes to assets.
     // Use the following spec to disable that behaviour, useful when developing.
@@ -63,5 +71,9 @@ public class SuggestSKOSService extends Service<SuggestSKOSConfiguration> {
     
     environment.addResource(new ExpansionsResource(skosEngine));
     environment.addResource(new SuggestResource(skosAutocompleter));
+    if(onlyLoads) {
+    	System.out.println("Ending index phase");
+    	System.exit(0);
+    }
   }
 }
