@@ -14,8 +14,8 @@ import pt.unl.fct.di.suggestskos.core.Suggestions;
 
 import at.ac.univie.mminf.luceneSKOS.search.SKOSAutocompleter;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
-import com.yammer.metrics.annotation.Timed;
 
 @Path("/suggest")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,19 +23,15 @@ public class SuggestResource {
   private final AtomicLong counter;
   private final SKOSAutocompleter skosAutocompleter;
   
-  public SuggestResource(SKOSAutocompleter skosAutocompleter)
-      throws IOException {
+  public SuggestResource(SKOSAutocompleter skosAutocompleter) throws IOException {
     this.counter = new AtomicLong();
     this.skosAutocompleter = skosAutocompleter;
   }
   
   @GET
   @Timed
-  public Suggestions getSuggestions(@QueryParam("q") Optional<String> query,
-      @QueryParam("limit") Optional<Integer> limit) throws IOException {
+  public Suggestions getSuggestions(@QueryParam("q") Optional<String> query, @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
-    Suggestions sugs = new Suggestions(counter.incrementAndGet(),
-        skosAutocompleter.suggestSimilar(term, limit.or(10)));
-    return sugs;
+    return new Suggestions(counter.incrementAndGet(), skosAutocompleter.suggestSimilar(term, limit.or(10)));
   }
 }

@@ -16,14 +16,17 @@ import pt.unl.fct.di.suggestskos.core.Expansions;
 
 import at.ac.univie.mminf.luceneSKOS.skos.SKOSEngine;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
-import com.yammer.dropwizard.logging.Log;
-import com.yammer.metrics.annotation.Timed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Path("/expansions")
 @Produces(MediaType.APPLICATION_JSON)
 public class ExpansionsResource {
-  private static final Log LOG = Log.forClass(ExpansionsResource.class);
+  //private static final Log LOG = Log.forClass(ExpansionsResource.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ExpansionsResource.class);
   
   private final AtomicLong counter;
   private final SKOSEngine skosEngine;
@@ -35,8 +38,7 @@ public class ExpansionsResource {
   
   @GET
   @Timed
-  public Expansions getExpansions(@QueryParam("q") Optional<String> query,
-      @QueryParam("limit") Optional<Integer> limit) throws IOException {
+  public Expansions getExpansions(@QueryParam("q") Optional<String> query, @QueryParam("limit") Optional<Integer> limit) throws IOException {
     String term = URLDecoder.decode(query.or("").toLowerCase(), "UTF-8");
     
     // to remove duplicates

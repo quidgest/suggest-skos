@@ -1,9 +1,11 @@
 package pt.unl.fct.di.suggestskos;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import io.dropwizard.Configuration;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.yammer.dropwizard.config.Configuration;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class SuggestSKOSConfiguration extends Configuration {
   @NotEmpty
